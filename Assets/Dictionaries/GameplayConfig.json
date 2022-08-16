@@ -1,0 +1,7 @@
+{
+  "GridWidght": 8,
+  "GridHeight": 16,
+  "LineCleanReward": 5,
+  "StartFallSpeedMultiplier": 3.0,
+  "SpeedMultiplierOnCleanLine": 1.2
+}
