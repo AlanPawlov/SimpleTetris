@@ -5,6 +5,7 @@
     public int LineCleanReward;
     public float StartFallSpeedMultiplier;
     public float SpeedMultiplierOnCleanLine;
+    public string BlockPrefabPath;
 
     public GameplayConfig()
     {
@@ -13,5 +14,7 @@
         LineCleanReward = 5;
         StartFallSpeedMultiplier = 1;
         SpeedMultiplierOnCleanLine = 1.2f;
-    }
+        BlockPrefabPath = "Block";
+
+}
 }
