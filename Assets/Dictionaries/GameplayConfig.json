@@ -1,7 +1,8 @@
 {
-  "GridWidght": 8,
+  "GridWidght": 10,
   "GridHeight": 16,
   "LineCleanReward": 5,
   "StartFallSpeedMultiplier": 3.0,
-  "SpeedMultiplierOnCleanLine": 1.2
+  "SpeedMultiplierOnCleanLine": 1.2,
+  "BlockPrefabPath": "Block"
 }

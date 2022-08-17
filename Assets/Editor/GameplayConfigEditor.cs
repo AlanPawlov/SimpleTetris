@@ -57,4 +57,13 @@ public class GameplayConfigEditor : BaseModelEditor<GameplayConfig>
         get => _model.SpeedMultiplierOnCleanLine;
         set => _model.SpeedMultiplierOnCleanLine = value;
     }
+
+    [ShowInInspector]
+    [LabelText("Block Prefab Path")]
+    [LabelWidth(120)]
+    public string BlockPrefabPath       // TODO: переделать на перетаскивание префаба в окно
+    {
+        get => _model.BlockPrefabPath;
+        set => _model.BlockPrefabPath = value;
+    }
 }
