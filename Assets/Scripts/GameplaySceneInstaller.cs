@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
@@ -9,8 +10,39 @@ public class GameplaySceneInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
+        BindTimeTicker();
+        BindFallFigureController();
+        BindGameController();
         BindGridLayoutGroup();
         BindGameFieldGenerator();
+    }
+    private void BindTimeTicker()
+    {
+        var timeTicker = new TimeTicker();
+        Container.
+            Bind<TimeTicker>()
+            .FromInstance(timeTicker)
+            .AsSingle()
+            .NonLazy();
+        timeTicker.StartWork();
+    }
+
+    private void BindFallFigureController()
+    {
+        Container.
+            Bind<FallFigureController>()
+            .FromNew()
+            .AsSingle()
+            .NonLazy();
+    }
+
+    private void BindGameController()
+    {
+        Container.
+            Bind<GameLogicController>()
+            .FromNew()
+            .AsSingle()
+            .NonLazy();
     }
 
     private void BindGridLayoutGroup()
@@ -23,7 +55,7 @@ public class GameplaySceneInstaller : MonoInstaller
 
     private void BindGameFieldGenerator()
     {
-        Container.Bind<GameFieldGenerator>()
+        Container.Bind<GameFieldViewUpdater>()
             .FromNew()
             .AsSingle()
             .NonLazy();

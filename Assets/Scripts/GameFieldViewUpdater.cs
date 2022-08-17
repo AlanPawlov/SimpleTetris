@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class GameFieldGenerator
+public class GameFieldViewUpdater // TODO: Возможно таки надо разбить на отдельные генератор и апдейтер
 {
     private int _gridWidght;
     private int _gridHeight;
@@ -13,13 +13,30 @@ public class GameFieldGenerator
     private GridLayoutGroup _gridLayoutGroup;
 
     [Inject]
-    public void Construct(GridLayoutGroup gridLayoutGroup, GameplayConfig config) // TODO: подумать как реализовать через человеческий конструктор
+    public void Construct(GridLayoutGroup gridLayoutGroup, GameplayConfig config, GameLogicController gameController) // TODO: подумать как реализовать через человеческий конструктор
     {
         _gridHeight = config.GridHeight;
         _gridWidght = config.GridWidght;
         _gridLayoutGroup = gridLayoutGroup;
         LoadBlockPrefab(config.BlockPrefabPath);
         GenerateGrid(_gridWidght, _gridHeight);
+        gameController.OnBlockStateUpdate += OnBlockUpdateState;
+    }
+
+    private void OnBlockUpdateState(object sender, BlockUpdateArgs e)
+    {
+        switch (e.BlockState)
+        {
+            case BlockState.Invisible:
+                _blocks[e.X, e.Y].color = Color.clear;
+                break;
+            case BlockState.Falling:
+                _blocks[e.X, e.Y].color = Color.red;
+                break;
+            case BlockState.OnGround:
+                _blocks[e.X, e.Y].color = Color.gray;
+                break;
+        }
     }
 
     private Image LoadBlockPrefab(string prefabPath) // TODO: Перевести на бандлы
