@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
@@ -6,24 +7,39 @@ public class GameplaySceneInstaller : MonoInstaller
 {
     [SerializeField]
     private GridLayoutGroup _gridLayoutGroup;
+
     private GameplayConfig _gameplayConfig;
+    private List<FigureModel> _figures;
+    private InputHandler _inputHandler;
+    private FallFigureController _fallFigureController;
+    private GameLogicController _gameLogicController;
+    private GameFieldViewUpdater _gameFieldViewUpdater;
+    private TimeTicker _timeTicker;
+
+    [Inject]
+    public void Construct(GameplayConfig config, List<FigureModel> figures, InputHandler inputHandler)
+    {
+        _gameplayConfig = config;
+        _figures = figures;
+        _inputHandler = inputHandler;
+    }
 
     public override void InstallBindings()
     {
         BindTimeTicker();
         BindBlockFactory();
         BindFallFigureController();
-        BindGameController();
-        BindGridLayoutGroup();
+        BindGameLogicController();
         BindGameFieldUpdater();
         BindScoreCounter();
     }
 
     private void BindScoreCounter()
     {
+        var scoreCounter = new ScoreCounter(_gameLogicController, _gameplayConfig.LineCleanReward);
         Container.
             Bind<ScoreCounter>().
-            FromNew().
+            FromInstance(scoreCounter).
             AsSingle();
     }
 
@@ -37,45 +53,40 @@ public class GameplaySceneInstaller : MonoInstaller
 
     private void BindTimeTicker()
     {
-        var timeTicker = new TimeTicker();
+        _timeTicker = new TimeTicker();
         Container.
             Bind<TimeTicker>()
-            .FromInstance(timeTicker)
+            .FromInstance(_timeTicker)
             .AsSingle()
             .NonLazy();
-        timeTicker.StartWork();
+        _timeTicker.StartWork();
     }
 
     private void BindFallFigureController()
     {
+        _fallFigureController = new FallFigureController(_timeTicker, _gameplayConfig);
         Container.
             Bind<FallFigureController>()
-            .FromNew()
+            .FromInstance(_fallFigureController)
             .AsSingle()
             .NonLazy();
     }
 
-    private void BindGameController()
+    private void BindGameLogicController()
     {
+        _gameLogicController = new GameLogicController(_inputHandler, _fallFigureController, _gameplayConfig, _figures);
         Container.
             Bind<GameLogicController>()
-            .FromNew()
+            .FromInstance(_gameLogicController)
             .AsSingle()
             .NonLazy();
-    }
-
-    private void BindGridLayoutGroup()
-    {
-        Container
-            .Bind<GridLayoutGroup>()
-            .FromInstance(_gridLayoutGroup)
-            .AsSingle();
     }
 
     private void BindGameFieldUpdater()
     {
+        _gameFieldViewUpdater = new GameFieldViewUpdater(_gridLayoutGroup, _gameLogicController, _gameplayConfig);
         Container.Bind<GameFieldViewUpdater>()
-            .FromNew()
+            .FromInstance(_gameFieldViewUpdater)
             .AsSingle()
             .NonLazy();
     }

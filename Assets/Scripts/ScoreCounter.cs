@@ -7,11 +7,10 @@ public class ScoreCounter
     private int _lineCleanReward;
     private int _currentScore;
 
-    [Inject]
-    public void Construct(GameLogicController gameLogicController, GameplayConfig config) // TODO: подумать как реализовать через человеческий конструктор
+    public ScoreCounter(GameLogicController gameLogicController, int lineCleanReward)
     {
         gameLogicController.OnLineCleaned += OnChangeScore;
-        _lineCleanReward = config.LineCleanReward;
+        _lineCleanReward = lineCleanReward;
     }
 
     private void OnChangeScore(object sender, int cleanedLines)

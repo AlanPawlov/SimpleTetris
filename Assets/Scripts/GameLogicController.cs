@@ -17,8 +17,7 @@ public class GameLogicController
     public event EventHandler<BlockUpdateArgs> OnBlockStateUpdate;
     public event EventHandler<int> OnLineCleaned;
 
-    [Inject]
-    public void Construct(InputHandler inputHandler, FallFigureController fallFigureController, GameplayConfig config, List<FigureModel> figures) // TODO: подумать как реализовать через человеческий конструктор
+    public GameLogicController(InputHandler inputHandler, FallFigureController fallFigureController, GameplayConfig config, List<FigureModel> figures) 
     {
         _figures = figures;
         _gridWidht = config.GridWidght;

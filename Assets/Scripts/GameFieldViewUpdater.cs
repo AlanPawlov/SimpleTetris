@@ -10,8 +10,7 @@ public class GameFieldViewUpdater
     private Image[,] _blocks;
     private GridLayoutGroup _gridLayoutGroup;
 
-    [Inject]
-    public void Construct(GridLayoutGroup gridLayoutGroup, GameplayConfig config, GameLogicController gameController) // TODO: подумать как реализовать через человеческий конструктор
+    public GameFieldViewUpdater(GridLayoutGroup gridLayoutGroup, GameLogicController gameController, GameplayConfig config)
     {
         _gridHeight = config.GridHeight;
         _gridWidght = config.GridWidght;

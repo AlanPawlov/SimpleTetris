@@ -10,8 +10,7 @@ public class FallFigureController
     private float _time;
     public event EventHandler OnTimeUpdate;
 
-    [Inject]
-    public void Construct(TimeTicker ticker, GameplayConfig config) // TODO: подумать как реализовать через человеческий конструктор
+    public FallFigureController(TimeTicker ticker, GameplayConfig config)
     {
         _fallSpeedMultipler = config.StartFallSpeedMultiplier;
         ticker.OnTimeTick += UpdateTimer;
