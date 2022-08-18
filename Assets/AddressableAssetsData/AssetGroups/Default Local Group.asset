@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 6ba314c47695068458c8c26cf20f321c
+  m_SerializeEntries:
+  - m_GUID: fba58a20e86dbbe4b93823217abd3ea8
+    m_Address: DefaultButtonWidget
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b891b9092d67ddf45868e3fdf911f013
+    m_Address: DefaultLabelWidgetWithBackground
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3146077ba55fb1e4289da05eefb115bb
+    m_Address: GameplayWindow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ae0cf5c246c92114da3b140f9b5aa773
+    m_Address: MainMenuWindow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 934ee9e3fa7525447bc2c6ce12295665
+    m_Address: PauseWindow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 74818da684980604c9857443bd3e6004
+    m_Address: PauseButtonWidget
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 7eab7344fd0058f4ebe35afbad976248, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: b72c6be9d97409949b98988f81c8ab5c, type: 2}
+    - {fileID: 11400000, guid: 4e7372f67396fe844984f775ea3d36b0, type: 2}

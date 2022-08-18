@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class GameFieldViewUpdater // TODO: Возможно таки надо разбить на отдельные генератор и апдейтер
+public class GameFieldViewUpdater
 {
     private int _gridWidght;
     private int _gridHeight;
@@ -25,16 +23,21 @@ public class GameFieldViewUpdater // TODO: Возможно таки надо р
 
     private void OnBlockUpdateState(object sender, BlockUpdateArgs e)
     {
+        var block = _blocks[e.X, e.Y];
+        if (block == null)
+        {
+            return;
+        }
         switch (e.BlockState)
         {
             case BlockState.Invisible:
-                _blocks[e.X, e.Y].color = Color.clear;
+                block.color = Color.clear;
                 break;
             case BlockState.Falling:
-                _blocks[e.X, e.Y].color = Color.red;
+                block.color = Color.red;
                 break;
             case BlockState.OnGround:
-                _blocks[e.X, e.Y].color = Color.gray;
+                block.color = Color.gray;
                 break;
         }
     }
@@ -45,7 +48,7 @@ public class GameFieldViewUpdater // TODO: Возможно таки надо р
         return _prefabBlock;
     }
 
-    public Image[,] GenerateGrid(int gridWidght, int gridHeight)
+    public Image[,] GenerateGrid(int gridWidght, int gridHeight) // Вынести в фабрику
     {
         _gridWidght = gridWidght;
         _gridHeight = gridHeight;

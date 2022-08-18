@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using System;
 using Zenject;
 
@@ -17,6 +15,7 @@ public class GameLogicController
 
     private List<FigureModel> _figures;
     public event EventHandler<BlockUpdateArgs> OnBlockStateUpdate;
+    public event EventHandler<int> OnLineCleaned;
 
     [Inject]
     public void Construct(InputHandler inputHandler, FallFigureController fallFigureController, GameplayConfig config, List<FigureModel> figures) // TODO: подумать как реализовать через человеческий конструктор
@@ -241,16 +240,21 @@ public class GameLogicController
         int cleanedLines = 0;
         for (int y = 15; y >= 0; y--)
         {
-            int sum = 0;
+            int sumCellValues = 0;
             for (int x = 0; x < _gridWidht; x++)
             {
-                sum = sum + _grid[x, y];
-                if (sum == _gridWidht * 2)
+                sumCellValues = sumCellValues + _grid[x, y];
+                if (sumCellValues == _gridWidht * 2)
                 {
                     CleanLine(y);
                     cleanedLines++;
                 }
             }
+        }
+
+        if (cleanedLines > 0)
+        {
+            OnLineCleaned?.Invoke(this, cleanedLines);
         }
 
         MoveCleanedBlocks(cleanedLines);

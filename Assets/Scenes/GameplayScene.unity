@@ -257,6 +257,7 @@ GameObject:
   - component: {fileID: 290212680}
   - component: {fileID: 290212682}
   - component: {fileID: 290212681}
+  - component: {fileID: 290212683}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -306,6 +307,7 @@ MonoBehaviour:
   _scriptableObjectInstallers: []
   _monoInstallers:
   - {fileID: 290212681}
+  - {fileID: 290212683}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -323,6 +325,19 @@ MonoBehaviour:
   _parentNewObjectsUnderSceneContext: 0
   _contractNames: []
   _parentContractNames: []
+--- !u!114 &290212683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290212679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9781dcd6c70b0e540b3fa5023a12c1b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainCanvas: {fileID: 1246660167}
 --- !u!1 &535758447
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,8 +373,8 @@ Camera:
   m_GameObject: {fileID: 535758447}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.33962262, g: 0.33962262, b: 0.33962262, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

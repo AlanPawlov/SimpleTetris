@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class InputHandler
+public class InputHandler // TODO: сделать абстрактным, и резделить реализации под пк и мобилки
 {
     public event EventHandler<InputActionType> OnInputEnter;
     private bool _isWork;
