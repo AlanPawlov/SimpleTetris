@@ -7,6 +7,11 @@ public class TimeTicker
     private bool _isWork;
     public event EventHandler OnTimeTick;
 
+    public TimeTicker()
+    {
+        StartWork();
+    }
+
     public void StartWork()
     {
         _isWork = true;

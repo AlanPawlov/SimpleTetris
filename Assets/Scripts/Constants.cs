@@ -1,6 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Constants : MonoBehaviour
@@ -20,6 +18,7 @@ public class Constants : MonoBehaviour
     {
         public static readonly Color ColorWhite = new Color(1, 1, 1, 1);
         public static readonly Color ColorRed = new Color(1, 0, 0, 1);
+        public static readonly Color FullAlpha = new Color(0, 0, 0, 0);
     }
 
     public class ResourcesMap
@@ -31,6 +30,7 @@ public class Constants : MonoBehaviour
         public static readonly string MainMenuWindow = "MainMenuWindow";
         public static readonly string PauseWindow = "PauseWindow";
         public static readonly string GameplayWindow = "GameplayWindow";
+        public static readonly string LoseWindow = "LoseWindow";
 
         public static readonly string MainMenuScene = "";
         public static readonly string GameplayScene = "";

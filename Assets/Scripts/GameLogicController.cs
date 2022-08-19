@@ -5,6 +5,7 @@ using Zenject;
 
 public class GameLogicController
 {
+    private bool _isFieldFilled;
     private int _gridWidht;
     private int _gridHeight;
     private int[,] _grid; // 0 - пустая ячейка, 1 - ячейка падает, 2 - ячейка на земле
@@ -14,41 +15,58 @@ public class GameLogicController
     private int _figureSize;
 
     private List<FigureModel> _figures;
+    private InputHandler _inputHandler;
+    private FallFigureController _fallFigureController;
     public event EventHandler<BlockUpdateArgs> OnBlockStateUpdate;
     public event EventHandler<int> OnLineCleaned;
+    public event EventHandler OnFieldFilled;
 
-    public GameLogicController(InputHandler inputHandler, FallFigureController fallFigureController, GameplayConfig config, List<FigureModel> figures) 
+    public GameLogicController(InputHandler inputHandler, FallFigureController fallFigureController, GameplayConfig config, List<FigureModel> figures)
     {
         _figures = figures;
         _gridWidht = config.GridWidght;
         _gridHeight = config.GridHeight;
         _grid = new int[_gridWidht, _gridHeight];
-        inputHandler.OnInputEnter += OnInputEntered;
-        fallFigureController.OnTimeUpdate += OnTimeUpdate;
+        _inputHandler = inputHandler;
+        _fallFigureController = fallFigureController;
+        _inputHandler.OnInputEnter += OnInputEntered;
+        _fallFigureController.OnTimeUpdate += OnTimeUpdate;
         AddFigure();
+    }
+
+    ~GameLogicController()
+    {
+        _inputHandler.OnInputEnter -= OnInputEntered;
+        _fallFigureController.OnTimeUpdate -= OnTimeUpdate;
     }
 
     private void OnTimeUpdate(object sender, EventArgs e)
     {
-        MoveDown();
+        if (!_isFieldFilled)
+        {
+            MoveDown();
+        }
     }
 
     private void OnInputEntered(object sender, InputActionType actionType)
     {
-        switch (actionType)
+        if (!_isFieldFilled)
         {
-            case InputActionType.MoveLeft:
-                MoveHorizontal(-1);
-                break;
-            case InputActionType.MoveRight:
-                MoveHorizontal(1);
-                break;
-            case InputActionType.MoveDown:
-                MoveDown();
-                break;
-            case InputActionType.Rotate:
-                Rotate();
-                break;
+            switch (actionType)
+            {
+                case InputActionType.MoveLeft:
+                    MoveHorizontal(-1);
+                    break;
+                case InputActionType.MoveRight:
+                    MoveHorizontal(1);
+                    break;
+                case InputActionType.MoveDown:
+                    MoveDown();
+                    break;
+                case InputActionType.Rotate:
+                    Rotate();
+                    break;
+            }
         }
     }
 
@@ -285,12 +303,31 @@ public class GameLogicController
         _yFigurePosition = _gridHeight - 1;
         var currentFigureIndex = UnityEngine.Random.Range(0, _figures.Count);
         _figureSize = _figures[currentFigureIndex].FigureSize;
+        CheckFielFilled(currentFigureIndex);
 
         for (int x = 0; x < _figureSize; x++)
         {
             for (int y = 0; y < _figureSize; y++)
             {
-                _grid[x + _xFigurePosition, _yFigurePosition - y] = _figures[currentFigureIndex].FigureGrid[x, y];
+                var currentBlock = _figures[currentFigureIndex].FigureGrid[x, y];
+
+                _grid[x + _xFigurePosition, _yFigurePosition - y] = currentBlock == 1 ? 1 : _grid[x + _xFigurePosition, _yFigurePosition - y];
+            }
+        }
+
+
+    }
+
+    private void CheckFielFilled(int currentFigureIndex)
+    {
+        for (int x = 0; x < _figureSize; x++)
+        {
+            var currentBlock = _figures[currentFigureIndex].FigureGrid[x, _figureSize - 1];
+            if (currentBlock == 1 && _grid[x + _xFigurePosition, _yFigurePosition - _figureSize] == 2)
+            {
+                UpdateGrid();
+                _isFieldFilled = true;
+                OnFieldFilled?.Invoke(this, EventArgs.Empty);
             }
         }
     }

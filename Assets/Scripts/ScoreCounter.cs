@@ -1,16 +1,23 @@
 ﻿using System;
-using Zenject;
 
 public class ScoreCounter
 {
     public event EventHandler<int> OnScoreChanged;
     private int _lineCleanReward;
     private int _currentScore;
+    private GameLogicController _gameLogicController;
+    public int CurrentScore => _currentScore;
 
-    public ScoreCounter(GameLogicController gameLogicController, int lineCleanReward)
+    ~ScoreCounter()
     {
-        gameLogicController.OnLineCleaned += OnChangeScore;
-        _lineCleanReward = lineCleanReward;
+        _gameLogicController.OnLineCleaned -= OnChangeScore;
+    }
+
+    public ScoreCounter(GameLogicController gameLogicController, GameplayConfig config)
+    {
+        _gameLogicController = gameLogicController;
+        _gameLogicController.OnLineCleaned += OnChangeScore;
+        _lineCleanReward = config.LineCleanReward;
     }
 
     private void OnChangeScore(object sender, int cleanedLines)

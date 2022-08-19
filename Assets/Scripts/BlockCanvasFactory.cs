@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
@@ -10,10 +8,10 @@ public class BlockCanvasFactory : IBlockFactory
     private Image _blockPrefab;
     private string _blockPath;
 
-    public BlockCanvasFactory(DiContainer container, string blockPath)
+    public BlockCanvasFactory(DiContainer container, GameplayConfig config)
     {
         _diContainer = container;
-        _blockPath = blockPath;
+        _blockPath = config.BlockPrefabPath;
     }
 
     public void Load()

@@ -41,6 +41,10 @@ MonoBehaviour:
     m_Address: PauseButtonWidget
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 04598cc4494205b4195680277c1fb0be
+    m_Address: LoseWindow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 7eab7344fd0058f4ebe35afbad976248, type: 2}
   m_SchemaSet:

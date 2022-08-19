@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using Zenject;
 
@@ -39,15 +36,14 @@ public class AppStartup : MonoInstaller
 
     private void LoadProgress()
     {
-        // Грузим сейвы
+        // TODO: подкрутить загрузку сейвов
     }
 
     private void BindInputHandler()
     {
-        var inputHandler = new InputHandler();
         Container.
             Bind<InputHandler>().
-            FromInstance(inputHandler).
+            FromNew().
             AsSingle();
     }
 

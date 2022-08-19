@@ -1,41 +1,30 @@
-﻿using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 public class GameplaySceneUIInstaller : MonoInstaller
 {
     [SerializeField]
-    private Transform _mainCanvas;
-    private ResourcesManager _resourcesManager;
-    private ScoreCounter _scoreCounter;
-
-    [Inject]
-    public void Construct(ResourcesManager resourcesManager, ScoreCounter scoreCounter)
-    {
-        _resourcesManager = resourcesManager;
-        _scoreCounter = scoreCounter;
-    }
+    private Canvas _mainCanvas;
 
     public override void InstallBindings()
     {
-        BindGameplayUIWindows();
+        BindMainCanvas();
+        BindGameplayUIController();
     }
 
-    private async Task BindGameplayUIWindows()
+    private void BindMainCanvas()
     {
-        var menuWindow = await LoadMainMenuWindowAsync();
         Container.
-            Bind<GameplayWindow>().
-            FromInstance(menuWindow).
+            Bind<Canvas>().
+            FromInstance(_mainCanvas).
             AsSingle();
     }
 
-    private async Task<GameplayWindow> LoadMainMenuWindowAsync()
+    private void BindGameplayUIController()
     {
-        var gameplayUI = await _resourcesManager.LoadAsset<GameplayWindow>(Constants.ResourcesMap.GameplayWindow);
-        gameplayUI.SetResourcesManager(_resourcesManager);
-        gameplayUI.SetData(_scoreCounter);
-        gameplayUI.transform.SetParent(_mainCanvas.transform, false);
-        return gameplayUI;
+        Container.
+            Bind<GameplayUIController>().
+            AsSingle().
+            NonLazy();
     }
 }
