@@ -14,30 +14,42 @@
     ]
   },
   {
-    "Id": "Line1x4",
-    "FigureSize": 4,
+    "Id": "Line1x3",
+    "FigureSize": 3,
     "FigureGrid": [
       [
         0,
         1,
-        0,
         0
       ],
       [
         0,
         1,
-        0,
         0
       ],
       [
         0,
         1,
+        0
+      ]
+    ]
+  },
+  {
+    "Id": "Line3x1",
+    "FigureSize": 3,
+    "FigureGrid": [
+      [
+        0,
         0,
         0
       ],
       [
-        0,
         1,
+        1,
+        1
+      ],
+      [
+        0,
         0,
         0
       ]
