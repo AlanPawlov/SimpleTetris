@@ -47,4 +47,5 @@ public class UIManager
     {
         _resourcesManager.UnloadAsset(cachedObject);
     }
+
 }
