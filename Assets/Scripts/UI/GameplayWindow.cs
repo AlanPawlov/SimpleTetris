@@ -44,6 +44,6 @@ public class GameplayWindow : BaseWindow
 
     private void OnPauseClick()
     {
-        CreateWindow<PauseWindow>(Constants.ResourcesMap.PauseWindow);
+        //CreateWindow<PauseWindow>(Constants.ResourcesMap.PauseWindow);
     }
 }

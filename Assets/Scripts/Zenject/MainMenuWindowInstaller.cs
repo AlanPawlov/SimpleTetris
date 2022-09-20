@@ -4,14 +4,12 @@ using Zenject;
 
 public class MainMenuWindowInstaller : MonoInstaller
 {
-    [SerializeField]
-    private Transform _mainCanvas;
-    private ResourcesManager _resourcesManager;
+    private UIManager _uIManager;
 
     [Inject]
-    public void Construct(ResourcesManager resourcesManager)
+    public void Construct(UIManager uIManager)
     {
-        _resourcesManager = resourcesManager;
+        _uIManager = uIManager;
     }
 
     public override void InstallBindings()
@@ -21,18 +19,10 @@ public class MainMenuWindowInstaller : MonoInstaller
 
     private async void BindMainMenuWindow()
     {
-        var menuWindow = await LoadMainMenuWindowAsync();
+        var menuWindow = await _uIManager.CreateWindow<MainMenuWindow>(Constants.ResourcesMap.MainMenuWindow);
         Container.
             Bind<MainMenuWindow>().
             FromInstance(menuWindow).
             AsSingle();
-    }
-
-    private async Task<MainMenuWindow> LoadMainMenuWindowAsync()
-    {
-        var menuWindow = await _resourcesManager.LoadAsset<MainMenuWindow>(Constants.ResourcesMap.MainMenuWindow);
-        menuWindow.SetResourcesManager(_resourcesManager);
-        menuWindow.transform.SetParent(_mainCanvas.transform, false);
-        return menuWindow;
     }
 }

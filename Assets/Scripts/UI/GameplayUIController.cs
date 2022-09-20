@@ -39,7 +39,7 @@ public class GameplayUIController
     private async Task<T> LoadWindow<T>(string path) where T : BaseWindow
     {
         var window = await _resourcesManager.LoadAsset<T>(path);
-        window.SetResourcesManager(_resourcesManager);
+        //window.SetResourcesManager(_resourcesManager);
         window.transform.SetParent(_mainCanvas.transform, false);
         return window;
     }

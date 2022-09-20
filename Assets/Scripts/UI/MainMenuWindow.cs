@@ -8,13 +8,13 @@ public class MainMenuWindow : BaseWindow
     private RectTransform _playButtonPivot;
     private ButtonWidget _playButton;
 
-    public async override void Init()
+    public override void Init()
     {
         base.Init();
-        await CreateChilds();
+        Setup();
     }
 
-    private async Task CreateChilds()
+    public async Task Setup()
     {
         _playButton = await CreateChild<ButtonWidget>(Constants.ResourcesMap.DefaultButton, _playButtonPivot);
         _playButton.SetData("play", Constants.ColorCodes.ColorWhite, OnPlayButtonClick);
