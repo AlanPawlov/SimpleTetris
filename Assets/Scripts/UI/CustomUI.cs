@@ -1,13 +1,34 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
+using Zenject;
 
 public class CustomUI : MonoBehaviour
 {
     protected RectTransform _rectTransform;
-    public RectTransform RectTransform => _rectTransform;
+    private List<CustomUI> _childElements;
+    private UIManager _uiManager;
 
-    protected ResourcesManager _resourcesManager;
-    protected Transform _mainCanvas;
+    public RectTransform RectTransform
+    {
+        get
+        {
+            if (_rectTransform == null)
+            {
+                _rectTransform = GetComponent<RectTransform>();
+            }
+
+            return _rectTransform;
+        }
+    }
+
+    public bool IsActive { get; set; }
+
+    [Inject]
+    public void Construct(UIManager uiManager)
+    {
+        _uiManager = uiManager;
+    }
 
     private void Start()
     {
@@ -19,42 +40,41 @@ public class CustomUI : MonoBehaviour
         Uninit();
     }
 
-    public void SetResourcesManager(ResourcesManager resourcesManager)
+    public virtual void Init()
     {
-        _resourcesManager = resourcesManager;
-    }
-
-    public async virtual void Init()
-    {
-        _rectTransform = GetComponent<RectTransform>();
-        _mainCanvas = FindObjectOfType<Canvas>().transform;
-    }
-
-    public async Task<T> CreateChild<T>(string assetPath, Transform parent) where T : CustomUI
-    {
-        var resource = await _resourcesManager.LoadAsset<T>(assetPath);
-        resource.transform.SetParent(parent, false);
-        return resource;
-    }
-
-    public async Task<T> CreateWindow<T>(string assetPath) where T : BaseWindow
-    {
-        var resource = await _resourcesManager.LoadAsset<T>(assetPath);
-        resource.SetResourcesManager(_resourcesManager);
-        resource.transform.SetParent(_mainCanvas.transform, false);
-        return resource;
+        IsActive = true;
+        _childElements = new List<CustomUI>();
     }
 
     public virtual void Uninit()
     {
-        var childs = GetComponentsInChildren<CustomUI>();
-        foreach (var child in childs)
+        IsActive = false;
+        foreach (var child in _childElements)
         {
             if (this != child)
             {
                 child.Uninit();
             }
-            _resourcesManager?.UnloadAsset(gameObject);
+            _uiManager?.UnloadUI(gameObject);
         }
+        _childElements = null;
+
+    }
+
+    public async Task<T> CreateChild<T>(string assetPath, Transform parent) where T : CustomUI
+    {
+        var widget = await _uiManager.CreateWidget<T>(assetPath, parent);
+        _childElements.Add(widget);
+        return widget;
+    }
+
+    protected void RemoveChild<T>(T child) where T : CustomUI
+    {
+        if (child == null)
+        {
+            return;
+        }
+        child.Uninit();
+        _childElements.Remove(child);
     }
 }

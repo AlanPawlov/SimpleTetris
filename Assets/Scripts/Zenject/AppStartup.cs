@@ -15,6 +15,7 @@ public class AppStartup : MonoInstaller
         BindResourcesManager();
         BindInputHandler();
         BindGamePlayConfig();
+        BindUIManager();
         BindFiguresList();
         SceneManager.LoadScene(1, LoadSceneMode.Single); // TODO: Не добавить контроллер сцен
     }
@@ -23,6 +24,15 @@ public class AppStartup : MonoInstaller
     {
         Container.
             Bind<ResourcesManager>().
+            FromNew().
+            AsSingle().
+            NonLazy();
+    }
+
+    private void BindUIManager()
+    {
+        Container.
+            Bind<UIManager>().
             FromNew().
             AsSingle().
             NonLazy();
