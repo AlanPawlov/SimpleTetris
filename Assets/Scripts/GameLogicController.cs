@@ -21,7 +21,8 @@ public class GameLogicController
     public event EventHandler<int> OnLineCleaned;
     public event EventHandler OnFieldFilled;
 
-    public GameLogicController(InputHandler inputHandler, FallFigureController fallFigureController, GameplayConfig config, List<FigureModel> figures)
+    public GameLogicController(InputHandler inputHandler, FallFigureController fallFigureController,
+        GameplayConfig config, List<FigureModel> figures)
     {
         _figures = figures;
         _gridWidht = config.GridWidght;

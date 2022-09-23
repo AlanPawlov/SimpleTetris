@@ -8,7 +8,8 @@ public class GameFieldViewUpdater
     private GameLogicController _gameLogicController;
     private IBlockFactory _blockFactory;
 
-    public GameFieldViewUpdater(GridLayoutGroup gridLayoutGroup, GameLogicController gameController, GameplayConfig config, IBlockFactory blockFactory)
+    public GameFieldViewUpdater(GridLayoutGroup gridLayoutGroup, GameLogicController gameController,
+        GameplayConfig config, IBlockFactory blockFactory)
     {
         _gridLayoutGroup = gridLayoutGroup;
         _blockFactory = blockFactory;

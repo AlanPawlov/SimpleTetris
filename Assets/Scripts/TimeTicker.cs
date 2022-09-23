@@ -31,5 +31,4 @@ public class TimeTicker
             await Task.Yield();
         }
     }
-
 }

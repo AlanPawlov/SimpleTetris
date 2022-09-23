@@ -9,7 +9,6 @@ public class GameplaySceneUIInstaller : MonoInstaller
     public override void InstallBindings()
     {
         BindMainCanvas();
-        BindGameplayUIController();
     }
 
     private void BindMainCanvas()
@@ -18,13 +17,5 @@ public class GameplaySceneUIInstaller : MonoInstaller
             Bind<Canvas>().
             FromInstance(_mainCanvas).
             AsSingle();
-    }
-
-    private void BindGameplayUIController()
-    {
-        Container.
-            Bind<GameplayUIController>().
-            AsSingle().
-            NonLazy();
     }
 }

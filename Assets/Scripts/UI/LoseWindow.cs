@@ -1,11 +1,10 @@
-using System;
+п»їusing System;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
-public class PauseWindow : BaseWindow
+
+public class LoseWindow : BaseWindow
 {
-    [SerializeField]
-    private Button _resumeButton;
     [SerializeField]
     private Button _restartButton;
     [SerializeField]
@@ -16,48 +15,32 @@ public class PauseWindow : BaseWindow
     {
         _sceneloader = sceneLoader;
         _windowsController = windowsController;
-        _windowsController.RegisеrWindow(this);
         _sceneloader.OnSceneChanged += OnSceneChanged;
+        _windowsController.RegisРµrWindow(this);
         _restartButton.onClick.AddListener(OnRestartClick);
         _toMenuButton.onClick.AddListener(ToMenuClick);
-        _resumeButton.onClick.AddListener(Resume);
     }
 
-    public override void Show()
+    private void OnRestartClick()
     {
-        base.Show();
-        Time.timeScale = 0; //TODO: временное решение, потом переделать (отсюда вызывать паузу, и добавить к сущностям реагирующим на паузу интерфейс реагирующий на её включение)
-    }
-
-    private void Resume()
-    {
-        Time.timeScale = 1; //TODO: временное решение, потом переделать
-        _windowsController.HideWindow(this);
-    }
-
-    private void OnRestartClick()// TODO: потом сделать через сбор игрового поля и счетчика очков
-    {
-        Time.timeScale = 1; //TODO: временное решение, потом переделать
         var targetScene = Constants.Scenes.GameplayScene;
         _sceneloader.LoadScene(targetScene);
     }
 
     private void ToMenuClick()
     {
-        Time.timeScale = 1; //TODO: временное решение, потом переделать
         var targetScene = Constants.Scenes.MainMenuScene;
         _sceneloader.LoadScene(targetScene);
     }
-
     private void OnSceneChanged(object sender, EventArgs e)
     {
         Unregister();
     }
+
     protected override void Unregister()
     {
         base.Unregister();
         _sceneloader.OnSceneChanged -= OnSceneChanged;
-        _resumeButton.onClick.RemoveAllListeners();
         _restartButton.onClick.RemoveAllListeners();
         _toMenuButton.onClick.RemoveAllListeners();
     }
