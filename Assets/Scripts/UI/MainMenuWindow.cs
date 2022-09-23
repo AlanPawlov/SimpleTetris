@@ -1,28 +1,32 @@
-﻿using System.Threading.Tasks;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using Zenject;
 
-public class MainMenuWindow : BaseWindow
+public class MainMenuWindow : MonoBehaviour
 {
     [SerializeField]
-    private RectTransform _playButtonPivot;
-    private ButtonWidget _playButton;
+    private Button _playButton;
+    private WindowsController _windowsManager;
+    private SceneLoader _sceneLoader;
 
-    public override void Init()
+    [Inject]
+    public void Construct(WindowsController windowsManager, SceneLoader sceneLoader)
     {
-        base.Init();
-        Setup();
+        _windowsManager = windowsManager;
+        _sceneLoader = sceneLoader;
+        _playButton.onClick.AddListener(PlayButtonClick);
     }
 
-    public async Task Setup()
+    private void PlayButtonClick()
     {
-        _playButton = await CreateChild<ButtonWidget>(Constants.ResourcesMap.DefaultButton, _playButtonPivot);
-        _playButton.SetData("play", Constants.ColorCodes.ColorWhite, OnPlayButtonClick);
+        var targetScene = Constants.Scenes.GameplayScene;
+        _sceneLoader.LoadScene(targetScene);
     }
 
-    private void OnPlayButtonClick()
+    private void OnDestroy()
     {
-        Uninit();
-        SceneManager.LoadScene(2, LoadSceneMode.Single);
+        _playButton.onClick.RemoveAllListeners();
     }
 }
